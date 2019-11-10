@@ -11,6 +11,8 @@ const io = require('socket.io')(server, {
 io.on("connect", socket => {
     console.log("user connected");
 
+    console.log()
+
 
     socket.on("video-offer", offer => {
         console.log(offer);
