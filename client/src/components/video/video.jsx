@@ -4,24 +4,21 @@ import { startCall, stopCall } from "./main";
 
 export default function Video() {
   const [video, setVideo] = useState(false);
-  const localVideoRef = React.createRef();
-  const remoteVideoRef = React.createRef();
 
   const startVideo = async e => {
-    await startCall(e, localVideoRef, remoteVideoRef);
+    await startCall(e);
 
     setVideo(!video);
   };
 
   const stopVideo = async e => {
-    await stopCall(e, localVideoRef);
+    await stopCall(e);
     setVideo(!video);
   };
 
   return (
     <div id="video-block">
-      <video ref={localVideoRef} width="500" autoPlay></video>
-      <video ref={remoteVideoRef} width="500" autoPlay></video>
+      <video id="local-video" src="" width="500" autoPlay></video>
       <div id="controls">
         <button id="start-video" onClick={startVideo} disabled={video}>
           start video
@@ -30,6 +27,7 @@ export default function Video() {
           stop video
         </button>
       </div>
+      <video id="remote-video" src="" width="500" autoPlay></video>
     </div>
   );
 }

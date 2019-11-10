@@ -5,3 +5,7 @@ video {
 #video-block {
     margin-top: 10px;
 }
+
+video {
+    margin: 10px
+}

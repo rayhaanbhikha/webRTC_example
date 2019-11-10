@@ -1,5 +1,3 @@
-import adapter from "webrtc-adapter";
-import ReactDOM from "react-dom";
 import io from "socket.io-client";
 
 const socket = io("http://localhost:3004");
@@ -21,15 +19,19 @@ let localStream;
 
 // OTHER PEER.
 socket.on("video-offer", async offer => {
-  createPeerConnection(null);
-  console.log(lpc);
-  console.log(offer);
+  console.log("video-offer")
+  createPeerConnection();
   await lpc.setRemoteDescription(offer.sdp);
   if (!localStream) {
+    const localVideo = document.getElementById("local-video");
     localStream = await getMedia(videoConstraints);
+    localVideo.srcObject = localStream;
+    //TODO: attach local stream to local video.srcObject
   }
-  localStream.getVideoTracks().forEach(track => lpc.addTrack(track));
+  console.log(localStream);
+  localStream.getVideoTracks().forEach(track => lpc.addTrack(track, localStream));
 
+  console.log(lpc);
   const answer = await lpc.createAnswer();
   await lpc.setLocalDescription(answer);
   socket.emit("video-answer", {
@@ -42,9 +44,8 @@ socket.on("video-offer", async offer => {
 
 // PEER WHO STARTED THE EXCHANGE.
 socket.on("video-answer", async answer => {
-  console.log(answer);
-  const sdp = new RTCSessionDescription(answer.sdp);
-  await lpc.setRemoteDescription(sdp);
+  console.log("video-answer event...");
+  await lpc.setRemoteDescription(answer.sdp);
 });
 
 const onnegotiationneededHandler = async () => {
@@ -73,6 +74,7 @@ socket.on("new-ice-candidate", async candidate => {
 
 const onicecandidateHandler = async event => {
   if (event.candidate) {
+    console.log("onicecandidatehandler triggered ....")
     console.log(event.candidate);
     socket.emit("new-ice-candidate", {
       type: "new-ice-candidate",
@@ -83,38 +85,39 @@ const onicecandidateHandler = async event => {
 };
 // ================================================================
 
-const ontrackHandler = remoteVideoRef => event => {
-    if(remoteVideoRef) {
-        console.log("onTrack", event);
-        const videoElement = ReactDOM.findDOMNode(remoteVideoRef.current);
-    }
-
-
-  // videoElement.srcObject = event.streams[0];
+const ontrackHandler = event => {
+  const remoteVideo = document.getElementById("remote-video");
+  console.log("on track handler ....");
+  console.log(remoteVideo);
+  console.log(event);
+  if(event.streams[0]) {
+    remoteVideo.srcObject = event.streams[0];
+  }
 };
 
-function createPeerConnection(remoteVideoRef) {
+function createPeerConnection() {
   lpc = new RTCPeerConnection(rtcConfig);
 
   lpc.onnegotiationneeded = onnegotiationneededHandler;
   lpc.onicecandidate = onicecandidateHandler;
-  lpc.ontrack = ontrackHandler(remoteVideoRef);
+  lpc.ontrack = ontrackHandler;
 }
 
-export const startCall = async (e, localVideoRef, remoteVideoRef) => {
-  createPeerConnection(remoteVideoRef);
+export const startCall = async (e) => {
+  const localVideo = document.getElementById("local-video");
+  createPeerConnection();
 
   localStream = await getMedia(videoConstraints);
-  const videoElement = ReactDOM.findDOMNode(localVideoRef.current);
-  videoElement.srcObject = localStream;
+  localVideo.srcObject = localStream;
 
-  localStream.getVideoTracks().forEach(track => lpc.addTrack(track));
+  console.log("adding track to peer connection");
+  localStream.getVideoTracks().forEach(track => lpc.addTrack(track, localStream));
 };
 
-export const stopCall = async (e, localVideoRef) => {
+export const stopCall = async e => {
+  const localVideo = document.getElementById("local-video");
   localStream.getVideoTracks().forEach(track => track.stop());
-  const videoElement = ReactDOM.findDOMNode(localVideoRef.current);
-  videoElement.srcObject = null;
+  localVideo.srcObject = null;
 };
 
 async function getMedia(constraints) {
