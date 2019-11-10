@@ -7,7 +7,6 @@ export default function Video() {
 
   const startVideo = async e => {
     await startCall(e);
-
     setVideo(!video);
   };
 
