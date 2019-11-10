@@ -1,4 +1,4 @@
-import adapter from 'webrtc-adapter';
+import adapter from "webrtc-adapter";
 import ReactDOM from "react-dom";
 import io from "socket.io-client";
 
@@ -19,10 +19,9 @@ const rtcConfig = {
 let lpc;
 let localStream;
 
-
 // OTHER PEER.
 socket.on("video-offer", async offer => {
-  createPeerConnection();
+  createPeerConnection(null);
   console.log(lpc);
   console.log(offer);
   await lpc.setRemoteDescription(offer.sdp);
@@ -41,14 +40,12 @@ socket.on("video-offer", async offer => {
   });
 });
 
-
 // PEER WHO STARTED THE EXCHANGE.
 socket.on("video-answer", async answer => {
-    console.log(answer);
-    const sdp = new RTCSessionDescription(answer.sdp);
-    await lpc.setRemoteDescription(sdp);
+  console.log(answer);
+  const sdp = new RTCSessionDescription(answer.sdp);
+  await lpc.setRemoteDescription(sdp);
 });
-
 
 const onnegotiationneededHandler = async () => {
   try {
@@ -64,62 +61,54 @@ const onnegotiationneededHandler = async () => {
   } catch (error) {}
 };
 
-
 // ICE STEPS =====================================================
 socket.on("new-ice-candidate", async candidate => {
-    try {
-        
-        // if(candidate.candidate) {
-            console.log("other peer", candidate);
-            await lpc.addIceCandidate(candidate.candidate);
-        // }
-
-        
-    } catch (error) {
-        console.log(error.message);
-    }
-})
+  try {
+    console.log("other peer", candidate);
+    await lpc.addIceCandidate(candidate.candidate);
+  } catch (error) {
+    console.log(error.message);
+  }
+});
 
 const onicecandidateHandler = async event => {
-
-    if(event.candidate) {
-        console.log(event.candidate);
-        socket.emit("new-ice-candidate", {
-            type: "new-ice-candidate",
-            target: "user2",
-            candidate: event.candidate
-        });
-    }
-
-}
+  if (event.candidate) {
+    console.log(event.candidate);
+    socket.emit("new-ice-candidate", {
+      type: "new-ice-candidate",
+      target: "user2",
+      candidate: event.candidate
+    });
+  }
+};
 // ================================================================
 
+const ontrackHandler = remoteVideoRef => event => {
+    if(remoteVideoRef) {
+        console.log("onTrack", event);
+        const videoElement = ReactDOM.findDOMNode(remoteVideoRef.current);
+    }
 
-const ontrackHandler = event => {
-    console.log("onTrack", event);
-    // const videoElement = ReactDOM.findDOMNode(remoteVideoRef.current);
 
-    // videoElement.srcObject = event.streams[0];
-} 
+  // videoElement.srcObject = event.streams[0];
+};
 
-function createPeerConnection() {
+function createPeerConnection(remoteVideoRef) {
   lpc = new RTCPeerConnection(rtcConfig);
 
   lpc.onnegotiationneeded = onnegotiationneededHandler;
   lpc.onicecandidate = onicecandidateHandler;
-  lpc.ontrack = ontrackHandler;
+  lpc.ontrack = ontrackHandler(remoteVideoRef);
 }
 
 export const startCall = async (e, localVideoRef, remoteVideoRef) => {
-
-  createPeerConnection();
+  createPeerConnection(remoteVideoRef);
 
   localStream = await getMedia(videoConstraints);
   const videoElement = ReactDOM.findDOMNode(localVideoRef.current);
   videoElement.srcObject = localStream;
 
   localStream.getVideoTracks().forEach(track => lpc.addTrack(track));
-  // await getMedia(videoConstraints);
 };
 
 export const stopCall = async (e, localVideoRef) => {
