@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import "./video.css";
 import { startCall, stopCall } from "./main";
 
-export default function Video() {
+export default function Video(props) {
   const [video, setVideo] = useState(false);
 
   const startVideo = async e => {

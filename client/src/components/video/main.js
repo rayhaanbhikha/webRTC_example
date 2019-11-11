@@ -1,11 +1,6 @@
-import { socket } from '../../socket'
+import { socket } from "../../socket";
+import { getMedia, Video } from "./video";
 
-const videoConstraints = {
-  video: {
-    width: 1280,
-    height: 720
-  }
-};
 const rtcConfig = {
   iceServers: [
     {
@@ -18,17 +13,17 @@ let localStream;
 
 // OTHER PEER.
 socket.on("video-offer", async offer => {
-  console.log("video-offer")
+  console.log("video-offer");
   createPeerConnection();
   await lpc.setRemoteDescription(offer.sdp);
   if (!localStream) {
-    const localVideo = document.getElementById("local-video");
-    localStream = await getMedia(videoConstraints);
-    localVideo.srcObject = localStream;
-    //TODO: attach local stream to local video.srcObject
+    localStream = await getMedia();
+    Video.local.srcObject = localStream;
   }
   console.log(localStream);
-  localStream.getVideoTracks().forEach(track => lpc.addTrack(track, localStream));
+  localStream
+    .getVideoTracks()
+    .forEach(track => lpc.addTrack(track, localStream));
 
   console.log(lpc);
   const answer = await lpc.createAnswer();
@@ -73,7 +68,7 @@ socket.on("new-ice-candidate", async candidate => {
 
 const onicecandidateHandler = async event => {
   if (event.candidate) {
-    console.log("onicecandidatehandler triggered ....")
+    console.log("onicecandidatehandler triggered ....");
     console.log(event.candidate);
     socket.emit("new-ice-candidate", {
       type: "new-ice-candidate",
@@ -85,12 +80,9 @@ const onicecandidateHandler = async event => {
 // ================================================================
 
 const ontrackHandler = event => {
-  const remoteVideo = document.getElementById("remote-video");
   console.log("on track handler ....");
-  console.log(remoteVideo);
-  console.log(event);
-  if(event.streams[0]) {
-    remoteVideo.srcObject = event.streams[0];
+  if (event.streams[0]) {
+    Video.remote.srcObject = event.streams[0];
   }
 };
 
@@ -102,27 +94,19 @@ function createPeerConnection() {
   lpc.ontrack = ontrackHandler;
 }
 
-export const startCall = async (e) => {
-  const localVideo = document.getElementById("local-video");
+export const startCall = async e => {
   createPeerConnection();
 
-  localStream = await getMedia(videoConstraints);
-  localVideo.srcObject = localStream;
+  localStream = await getMedia();
+  Video.local.srcObject = localStream;
 
   console.log("adding track to peer connection");
-  localStream.getVideoTracks().forEach(track => lpc.addTrack(track, localStream));
+  localStream
+    .getVideoTracks()
+    .forEach(track => lpc.addTrack(track, localStream));
 };
 
 export const stopCall = async e => {
-  const localVideo = document.getElementById("local-video");
   localStream.getVideoTracks().forEach(track => track.stop());
-  localVideo.srcObject = null;
+  Video.local.srcObject = null;
 };
-
-async function getMedia(constraints) {
-  try {
-    return navigator.mediaDevices.getUserMedia(constraints);
-  } catch (error) {
-    console.log("error: ", error);
-  }
-}

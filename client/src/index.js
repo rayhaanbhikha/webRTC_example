@@ -44,7 +44,7 @@ const App = () => {
 
       {renderForm()}
 
-      <Video />
+      <Video name={name}/>
     </>
   );
 };
