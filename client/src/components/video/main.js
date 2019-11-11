@@ -8,12 +8,14 @@ const rtcConfig = {
     }
   ]
 };
-let lpc;
+let lpc; //TODO: extract this into separate file. Makes code cleaner.
 let localStream;
 
 // OTHER PEER.
 socket.on("video-offer", async offer => {
   console.log("video-offer");
+  alert("someone is calling you");
+  //FIXME: once call is accepted you should bypass the startcall step.
   createPeerConnection();
   await lpc.setRemoteDescription(offer.sdp);
   if (!localStream) {
