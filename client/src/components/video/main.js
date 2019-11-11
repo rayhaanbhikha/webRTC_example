@@ -1,6 +1,5 @@
-import io from "socket.io-client";
+import { socket } from '../../socket'
 
-const socket = io("http://localhost:3004");
 const videoConstraints = {
   video: {
     width: 1280,
