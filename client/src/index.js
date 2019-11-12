@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import ReactDOM from "react-dom";
 
-import Video from "./components/video/Video";
+import Video from "./components/video/Video.jsx";
 
 import * as serviceWorker from "./serviceWorker";
 import { socket } from "./socket";
+import Routes from "./Routes";
 
 const App = () => {
   const [name, setName] = useState("");
@@ -44,12 +45,12 @@ const App = () => {
 
       {renderForm()}
 
-      <Video name={name}/>
+      {/* <Video name={name}/> */}
     </>
   );
 };
 
-ReactDOM.render(<App />, document.getElementById("root"));
+ReactDOM.render(<Routes />, document.getElementById("root"));
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.

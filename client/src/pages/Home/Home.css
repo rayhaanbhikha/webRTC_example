@@ -1,0 +1,21 @@
+#container {
+    display: flex;
+    height: 500px;
+    justify-content: center;
+}
+
+form {
+    display: flex;
+    align-self: center;
+    flex-direction: column;
+    min-width: 300px;
+}
+
+label, input {
+    margin: 10px;
+}
+
+input[type="submit"] {
+    align-self: center;
+    width: 50px;
+}
