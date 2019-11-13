@@ -36,12 +36,11 @@ videoChatNsp.on("connect", socket => {
 			socket.join(defaultRoom)
 			socket.username = username;
 			room.addUser(username, socket.id);
-			socket.emit(events.joinedRoom, room.info);
+			videoChatNsp.to(defaultRoom).emit(events.joinedRoom, room.info);
 		} else {
 			socket.emit(events.roomFull);
 		}
 	});
-
 
 
 
