@@ -1,54 +1,8 @@
-import React, { useState } from "react";
+import React from "react";
 import ReactDOM from "react-dom";
 
-import Video from "./components/video/Video.jsx";
-
 import * as serviceWorker from "./serviceWorker";
-import { socket } from "./socket";
 import Routes from "./Routes";
-
-const App = () => {
-  const [name, setName] = useState("");
-  const [room, setRoom] = useState("");
-
-  const joinRoom = () => {
-    socket.emit("join-room", { user: name });
-  };
-  socket.on("room-full", () => {
-    console.log("room is full cannot join");
-  });
-  socket.on("joined-room", ({room}) => {
-    setRoom(room);
-  });
-
-  const renderForm = () => {
-    return room ? (
-      <p>
-        {name} you have joined room: {room}{" "}
-      </p>
-    ) : (
-      <>
-        <label htmlFor="">Enter Name: </label>
-        <input
-          type="text"
-          value={name}
-          onChange={e => setName(e.target.value)}
-        />
-        <button onClick={joinRoom}> Join room </button>
-      </>
-    );
-  };
-
-  return (
-    <>
-      <h1>Live stream chat</h1>
-
-      {renderForm()}
-
-      {/* <Video name={name}/> */}
-    </>
-  );
-};
 
 ReactDOM.render(<Routes />, document.getElementById("root"));
 
