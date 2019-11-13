@@ -11,7 +11,7 @@ const Home = props => {
 	const location = {
 	  pathname: "/room",
 	  state: {
-		userName: name
+		username: name
 	  }
 	};
 	props.history.push(location);

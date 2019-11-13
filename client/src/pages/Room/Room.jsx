@@ -3,20 +3,25 @@ import React, { useState } from "react";
 import { socket } from "../../socket";
 
 export default function Room(props) {
-	const { userName } = props.location.state;
+	const { username } = props.location.state;
 	const [errorMsg, setErrorMsg] = useState();
+	const [roomInfo, setRoomInfo] = useState();
+
+	// socket.on("/room/info", info => {
+	// 	console.log(roomInfo);
+	// })
 
 	socket.on("room-full", () => setErrorMsg("Room is full"));
-	socket.on("joined-room", info => console.log(info));
+	socket.on("joined-room", (info) => console.log(info));
 
 	const joinRoom = () => {
-		socket.emit("join-room", { userName });
+		socket.emit("join-room", { username });
 	};
 
 	return (
 		<div>
 			{errorMsg && <div>{errorMsg}</div>}
-			welcome {userName}
+			welcome {username}
 			<button onClick={joinRoom}>Join Room</button>
 		</div>
 	);

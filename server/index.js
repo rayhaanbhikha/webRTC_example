@@ -1,3 +1,5 @@
+const Room = require("./Room");
+
 const server = require("http").createServer();
 
 const io = require("socket.io")(server, {
@@ -10,73 +12,86 @@ const io = require("socket.io")(server, {
 
 const videoChatNsp = io.of("/video-chat");
 
-class Room {
-	constructor(name) {
-		this.name = name;
-		this.users = [];
-	}
 
-	get info() {
-		return {
-			name: this.name,
-			users: this.users
-		}
-	}
 
-	set addUser(user) {
-		this.users.push(user);
-	}
+const getRoom = room => () => videoChatNsp.adapter.rooms[room];
+const defaultRoom = "chat-room-1";
+const chatRoom1 = getRoom(defaultRoom);
 
-	removeUser(user) {
-		//TODO: implement this method.
-	}
+const events = {
+	joinRoom: "join-room",
+	joinedRoom: "joined-room",
+	roomFull: "room-full"
 }
 
-const room = new Room('chat-room-1');
+
+const room = new Room(defaultRoom);
 
 videoChatNsp.on("connect", socket => {
 	console.log("user connected");
 
-	socket.on("join-room", msg => {
-		//TODO: if same room joins then we should just return something.
-		console.log("Room: ", videoChatNsp.adapter.rooms["chat-room-1"]);
-		if (
-			!videoChatNsp.adapter.rooms["chat-room-1"] ||
-			videoChatNsp.adapter.rooms["chat-room-1"].length < 2
-		) {
-			room.addUser = msg.userName;
-			socket.user = msg.userName;
-			socket.join("chat-room-1");
-			console.log(room.info);
-			io.in("chat-room-1").emit("joined-room", room.info);
+	socket.on(events.joinRoom, ({ username }) => {
+
+		if (!chatRoom1() || chatRoom1().length < 2) {
+			socket.join(defaultRoom)
+			socket.username = username;
+			room.addUser(username, socket.id);
+			socket.emit(events.joinedRoom, room.info);
 		} else {
-			socket.emit("room-full");
+			socket.emit(events.roomFull);
 		}
 	});
 
-	//FIXME: ideally should be a rest endpoint.
 
-	socket.on("video-offer", offer => {
-		//TODO: need to validate incoming user and check if they exist in the room before broadcasting the message in that room.
-		// need to look at how that works. i.e. how do you listen 'on' event handler in individual rooms.
-		console.log(offer);
-		socket.broadcast.emit("video-offer", offer);
-	});
 
-	socket.on("video-answer", answer => {
-		console.log(answer);
-		socket.broadcast.emit("video-answer", answer);
-	});
 
-	socket.on("new-ice-candidate", candidate => {
-		console.log("candidate", candidate);
-		socket.broadcast.emit("new-ice-candidate", candidate);
-	});
 
-	//TODO: socket.on('disconnect') needs to be implemented.
-	socket.on('disconnect', args => {
-		console.log(socket.user);
-	})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	// socket.on("video-offer", offer => {
+	// 	//TODO: need to validate incoming user and check if they exist in the room before broadcasting the message in that room.
+	// 	// need to look at how that works. i.e. how do you listen 'on' event handler in individual rooms.
+	// 	console.log(offer);
+	// 	socket.broadcast.emit("video-offer", offer);
+	// });
+
+	// socket.on("video-answer", answer => {
+	// 	console.log(answer);
+	// 	socket.broadcast.emit("video-answer", answer);
+	// });
+
+	// socket.on("new-ice-candidate", candidate => {
+	// 	console.log("candidate", candidate);
+	// 	socket.broadcast.emit("new-ice-candidate", candidate);
+	// });
+
+	// //TODO: socket.on('disconnect') needs to be implemented.
+	// socket.on('disconnect', args => {
+	// 	console.log(socket.user);
+	// })
 });
 
 server.listen(3004, () => console.log("server started on port 3004"));
