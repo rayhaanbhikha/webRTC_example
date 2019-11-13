@@ -21,6 +21,7 @@ const chatRoom1 = getRoom(defaultRoom);
 const events = {
 	joinRoom: "join-room",
 	joinedRoom: "joined-room",
+	leftRoom: "left-room",
 	roomFull: "room-full"
 }
 
@@ -31,7 +32,6 @@ videoChatNsp.on("connect", socket => {
 	console.log("user connected");
 
 	socket.on(events.joinRoom, ({ username }) => {
-
 		if (!chatRoom1() || chatRoom1().length < 2) {
 			socket.join(defaultRoom)
 			socket.username = username;
@@ -42,8 +42,14 @@ videoChatNsp.on("connect", socket => {
 		}
 	});
 
-
-
+	socket.on('disconnecting', () => {
+		console.log("user-disconnected");
+		if( socket.rooms && defaultRoom in socket.rooms) {
+			socket.leave(defaultRoom);
+			room.removeUser(socket.id);
+			videoChatNsp.to(defaultRoom).emit(events.leftRoom, room.info);
+		}
+	});
 
 
 
@@ -87,10 +93,6 @@ videoChatNsp.on("connect", socket => {
 	// 	socket.broadcast.emit("new-ice-candidate", candidate);
 	// });
 
-	// //TODO: socket.on('disconnect') needs to be implemented.
-	// socket.on('disconnect', args => {
-	// 	console.log(socket.user);
-	// })
 });
 
 server.listen(3004, () => console.log("server started on port 3004"));
