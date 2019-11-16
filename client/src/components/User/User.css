@@ -1,0 +1,12 @@
+.user {
+    display: flex;
+    justify-content: space-between;
+}
+
+.user-l {
+    flex-grow: 2;
+}
+
+.user-r {
+    flex-grow: 1;
+}

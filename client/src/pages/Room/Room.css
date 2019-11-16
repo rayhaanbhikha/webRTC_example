@@ -1,0 +1,16 @@
+.room {
+  background: #64bfff;
+  padding: 10px;
+  text-align: center;
+}
+
+.room-page {
+  display: flex;
+  flex-direction: column;
+}
+
+.room-info {
+  align-self: center;
+  width: 100%;
+  max-width: 500px;
+}

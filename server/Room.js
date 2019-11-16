@@ -14,7 +14,8 @@ class Room {
     addUser(username, id) {
         this.users.push({
             username,
-            id
+            id,
+            time: new Date()
         });
     }
 
