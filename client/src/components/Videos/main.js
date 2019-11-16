@@ -96,7 +96,7 @@ function createPeerConnection() {
   lpc.ontrack = ontrackHandler;
 }
 
-export const startCall = async e => {
+export const startCall = async () => {
   createPeerConnection();
 
   localStream = await getMedia();
@@ -108,7 +108,7 @@ export const startCall = async e => {
     .forEach(track => lpc.addTrack(track, localStream));
 };
 
-export const stopCall = async e => {
+export const stopCall = async () => {
   localStream.getVideoTracks().forEach(track => track.stop());
   Video.local.srcObject = null;
 };
