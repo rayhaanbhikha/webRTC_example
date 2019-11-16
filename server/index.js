@@ -36,6 +36,7 @@ videoChatNsp.on("connect", socket => {
 			socket.join(defaultRoom)
 			socket.username = username;
 			room.addUser(username, socket.id);
+			socket.emit("you-joined", { username, id: socket.id })
 			videoChatNsp.to(defaultRoom).emit(events.joinedRoom, room.info);
 		} else {
 			socket.emit(events.roomFull);
@@ -44,31 +45,12 @@ videoChatNsp.on("connect", socket => {
 
 	socket.on('disconnecting', () => {
 		console.log("user-disconnected");
-		if( socket.rooms && defaultRoom in socket.rooms) {
+		if (socket.rooms && defaultRoom in socket.rooms) {
 			socket.leave(defaultRoom);
 			room.removeUser(socket.id);
 			videoChatNsp.to(defaultRoom).emit(events.leftRoom, room.info);
 		}
 	});
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

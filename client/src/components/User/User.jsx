@@ -8,7 +8,7 @@ export default function User(props) {
             <div className="user-l">
                 {props.username}
             </div>
-            <div className="user-r">
+            <div className="user-r" hidden={props.showCall}>
                 <button onClick={props.onClick}> Call </button>
             </div>
         </div>

@@ -7,12 +7,16 @@ import User from '../../components/User/User'
 import './Room.css'
 
 export default function Room(props) {
-	const { username } = props.location.state;
+	const [userInfo, setUserInfo] = useState({ username: props.location.state.username, id: null });
 	const [errorMsg, setErrorMsg] = useState();
 	const [joinedRoom, setJoinedRoom] = useState(false);
 	const [roomInfo, setRoomInfo] = useState();
 
 	socket.on("room-full", () => setErrorMsg("Room is full"));
+	socket.on("you-joined", info => {
+		console.log("you joined", info);
+		setUserInfo(info);
+	});
 	socket.on("joined-room", info => {
 		console.log(info);
 		setRoomInfo(info);
@@ -23,7 +27,7 @@ export default function Room(props) {
 	});
 
 	const joinRoom = () => {
-		socket.emit("join-room", { username });
+		socket.emit("join-room", { username: userInfo.username });
 	};
 
 	const renderRoom = () => (
@@ -31,7 +35,7 @@ export default function Room(props) {
 			<div className="room">{roomInfo.room}</div>
 			<div className="users">
 				{roomInfo.users.map(({ username, id }) =>
-					<User key={id} username={username} onClick={() => console.log("hello")} />
+					<User key={id} username={username} showCall={username === userInfo.username && id === userInfo.id} onClick={() => console.log("hello")} />
 				)}
 			</div>
 
@@ -43,7 +47,7 @@ export default function Room(props) {
 			{errorMsg && <div>{errorMsg}</div>}
 			{joinedRoom ? renderRoom() : (
 				<>
-					<p>welcome {username}</p>
+					<p>welcome {userInfo.username}</p>
 					<button onClick={joinRoom}>Join Room</button>
 				</>
 			)}
