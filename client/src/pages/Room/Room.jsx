@@ -31,12 +31,21 @@ export default function Room(props) {
 		socket.emit("join-room", { username: userInfo.username });
 	};
 
+	const onCall = (user) => {
+		console.log(user);
+		const location = {
+			pathname: "/call",
+			state: user
+		  }
+		props.history.push(location);
+	}
+
 	const renderRoom = () => (
 		<div className="room-info">
 			<div className="room">{roomInfo.room}</div>
 			<div className="users">
 				{roomInfo.users.map(({ username, id }) =>
-					<User key={id} username={username} showCall={username === userInfo.username && id === userInfo.id} onClick={() => console.log("hello")} />
+					<User key={id} username={username} showCall={username === userInfo.username && id === userInfo.id} onClick={onCall.bind(null, { username, id})} />
 				)}
 			</div>
 
