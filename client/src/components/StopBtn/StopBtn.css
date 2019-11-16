@@ -1,0 +1,16 @@
+.stop-call-wrapper {
+    display: flex;
+    width: 50px;
+    background: #ff4a4a;
+    border-radius: 0px 5px 5px 0px;
+    justify-content: center;
+    padding: 2px 0;
+}
+
+.stop-call-wrapper:active {
+    background: red;
+}
+
+div.stop-call-wrapper > svg {
+    color: white;
+}
