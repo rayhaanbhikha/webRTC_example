@@ -1,9 +1,5 @@
 video {
-    background: black;
-}
-
-#video-block {
-    margin-top: 10px;
+    align-self: center;
 }
 
 video {
