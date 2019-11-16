@@ -52,12 +52,6 @@ videoChatNsp.on("connect", socket => {
 		}
 	});
 
-
-
-
-
-
-
 	socket.on("video-offer", offer => {
 		//TODO: need to validate incoming user and check if they exist in the room before broadcasting the message in that room.
 		// need to look at how that works. i.e. how do you listen 'on' event handler in individual rooms.
