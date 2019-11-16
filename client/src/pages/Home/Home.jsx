@@ -1,35 +1,46 @@
 import React, { useState } from "react";
 
 import "./Home.css";
+import { socket } from "../../socket";
 
 const Home = props => {
-	const [name, setname] = useState("");
+	const inputRef = React.createRef();
+	const [errorMsg, setErrorMsg] = useState();
 
-	const handleOnSubmit = e => {
-	e.preventDefault();
+	socket.on("room-full", () => setErrorMsg("Room is full"));
+	socket.on("you-joined", ({ currentUser, roomInfo }) => {
+		const location = {
+			pathname: "/room",
+			state: {
+				user: currentUser,
+				roomInfo
+			}
+		};
+		props.history.push(location);
+	});
 
-	const location = {
-	  pathname: "/room",
-	  state: {
-		username: name
-	  }
+	const handleOnClick = e => {
+		const name = inputRef.current.value;
+		console.log(name);
+		socket.emit("join-room", { username: name });
 	};
-	props.history.push(location);
-  };
 
-  return (
-	<div id="container">
-	  <form onSubmit={handleOnSubmit}>
-		<label>Please enter a name:</label>
-		<input
-			type="text"
-			value={name}
-			onChange={e => setname(e.target.value)}
-		/>
-		<input type="submit" />
-	  </form>
-	</div>
-  );
+	return (
+		<div id="container">
+			{errorMsg && <div>{errorMsg}</div>}
+			<div className="form">
+				<div className="room">
+					Chat-room-1
+				</div>
+				<label>Please enter a name:</label>
+				<input
+					type="text"
+					ref={inputRef}
+				/>
+				<button onClick={handleOnClick}>Join Room</button>
+			</div>
+		</div>
+	);
 };
 
 export default Home;

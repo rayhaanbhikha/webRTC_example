@@ -36,7 +36,10 @@ videoChatNsp.on("connect", socket => {
 			socket.join(defaultRoom)
 			socket.username = username;
 			room.addUser(username, socket.id);
-			socket.emit("you-joined", { username, id: socket.id })
+			socket.emit("you-joined", {
+				currentUser: { username, id: socket.id },
+				roomInfo: room.info
+			})
 			videoChatNsp.to(defaultRoom).emit(events.joinedRoom, room.info);
 		} else {
 			socket.emit(events.roomFull);

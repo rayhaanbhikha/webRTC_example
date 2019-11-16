@@ -4,7 +4,9 @@
     justify-content: center;
 }
 
-form {
+.form {
+    border: solid 1px #dadada;
+    padding-bottom: 10px;
     display: flex;
     align-self: center;
     flex-direction: column;
@@ -15,7 +17,6 @@ label, input {
     margin: 10px;
 }
 
-input[type="submit"] {
+button {
     align-self: center;
-    width: 50px;
 }
