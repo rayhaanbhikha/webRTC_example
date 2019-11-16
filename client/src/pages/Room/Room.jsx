@@ -7,7 +7,8 @@ import User from '../../components/User/User'
 import './Room.css'
 
 export default function Room(props) {
-	const [userInfo, setUserInfo] = useState({ username: props.location.state.username, id: null });
+	const { username } = props.location.state;
+	const [userInfo, setUserInfo] = useState({ username, id: null });
 	const [errorMsg, setErrorMsg] = useState();
 	const [joinedRoom, setJoinedRoom] = useState(false);
 	const [roomInfo, setRoomInfo] = useState();
@@ -46,10 +47,10 @@ export default function Room(props) {
 		<div className="room-page">
 			{errorMsg && <div>{errorMsg}</div>}
 			{joinedRoom ? renderRoom() : (
-				<>
+				<div className="join-room">
 					<p>welcome {userInfo.username}</p>
 					<button onClick={joinRoom}>Join Room</button>
-				</>
+				</div>
 			)}
 		</div>
 	);
