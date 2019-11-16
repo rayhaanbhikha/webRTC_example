@@ -1,0 +1,16 @@
+.call-wrapper {
+    background: #0da90d;
+    width: 50px;
+    display: flex;
+    border-radius: 5px 0px 0px 5px;
+    justify-content: center;
+    padding: 2px 0;
+}
+
+div.call-wrapper > svg {
+    color: white;
+}
+
+.call-wrapper:active {
+    background: green;
+}
