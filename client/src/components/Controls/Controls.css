@@ -1,0 +1,13 @@
+.controls {
+    display: flex;
+    background: #cccccc;
+    width: fit-content;
+    border-radius: 5px;
+    align-self: center;
+    position: absolute;
+    top: 220px;
+}
+
+.gap {
+    width: 20px;
+}
