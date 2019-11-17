@@ -1,4 +1,11 @@
-video {
-    align-self: center;
-    margin: 10px
+
+#remote-video {
+  width: 1000px;
+  height: 500px;
 }
+
+#local-video {
+    width: 360px;
+    height: 150px;
+  }
+

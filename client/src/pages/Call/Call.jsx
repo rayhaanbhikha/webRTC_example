@@ -12,7 +12,7 @@ export default function Call(props) {
 
     const startVideo = async e => {
         // await startCall(e);
-        const mediaStream = await navigator.mediaDevices.getUserMedia({ video: { width: 500, height: 200 } });
+        const mediaStream = await navigator.mediaDevices.getUserMedia({ video: { width: { min: 1280 }, height: { min: 720 } } });
         document.getElementById("local-video").srcObject = mediaStream;
         document.getElementById("remote-video").srcObject = mediaStream;
         setStream(mediaStream);
@@ -30,12 +30,8 @@ export default function Call(props) {
     return (
         <div className="call-page">
             <div className="video-feed">
-                <div className="remote-video">
-                    <Video id="remote-video" />
-                </div>
-                <div className="local-video">
-                    <Video id="local-video" />
-                </div>
+                <Video id="remote-video" />
+                <Video id="local-video" />
                 <Controls onStart={startVideo} onStop={stopVideo} />
             </div>
             {/* <button id="start-video" onClick={startVideo} disabled={video}> */}

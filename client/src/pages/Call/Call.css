@@ -7,13 +7,13 @@
   background: black;
 }
 
-.local-video {
+#local-video {
   grid-column: lvs-start;
   grid-row: lvs-start / 4;
   background: white;
 }
 
-.remote-video {
+#remote-video {
   background: green;
   grid-row: 1/4;
   grid-column: 1/4;
