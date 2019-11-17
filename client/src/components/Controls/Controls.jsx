@@ -7,10 +7,12 @@ import './Controls.css'
 
 export default function controls(props) {
     return (
-        <div className="controls">
-            <CallBtn onClick={props.onStart} />
-            <div className="gap"></div>
-            <StopBtn onClick={props.onStop}/>
+        <div className="controls-wrapper">
+            <div className="controls">
+                <CallBtn onClick={props.onStart} />
+                <div className="gap"></div>
+                <StopBtn onClick={props.onStop} />
+            </div>
         </div>
     )
 }

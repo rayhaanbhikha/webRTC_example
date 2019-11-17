@@ -4,6 +4,6 @@ import './Video.css'
 
 export default function Video(props) {
     return (
-        <video id={props.id} width="450" autoPlay></video>
+        <video id={props.id} width="" autoPlay></video>
     )
 }

@@ -1,13 +1,17 @@
+.controls-wrapper {
+  grid-column: ctrl-start;
+  grid-row: 3;
+}
 .controls {
-    display: flex;
-    background: #cccccc;
-    width: fit-content;
-    border-radius: 5px;
-    align-self: center;
-    position: absolute;
-    top: 220px;
+  display: flex;
+  width: 300px;
+  border-radius: 5px;
+  justify-content: center;
+  align-self: center;
+  margin-top: 3%;
 }
 
 .gap {
-    width: 20px;
+  width: 80px;
+  background: #cccccc;
 }

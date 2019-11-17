@@ -12,26 +12,31 @@ export default function Call(props) {
 
     const startVideo = async e => {
         // await startCall(e);
-        // const mediaStream = await navigator.mediaDevices.getUserMedia({ video: { width: 1280, height: 720 } });
-        // document.getElementById("local-video").srcObject = mediaStream;
-        // document.getElementById("remote-video").srcObject = mediaStream;
-        // setStream(mediaStream);
+        const mediaStream = await navigator.mediaDevices.getUserMedia({ video: { width: 500, height: 200 } });
+        document.getElementById("local-video").srcObject = mediaStream;
+        document.getElementById("remote-video").srcObject = mediaStream;
+        setStream(mediaStream);
         setVideo(!video);
     };
 
     const stopVideo = async () => {
         // await stopCall(e);
+        stream.getVideoTracks().forEach(track => track.stop());
+        document.getElementById("local-video").srcObject = null;
+        document.getElementById("remote-video").srcObject = null;
         setVideo(!video);
     };
 
     return (
         <div className="call-page">
-            <div className="local-video">
-                <Video id="local-video" />
+            <div className="video-feed">
+                <div className="remote-video">
+                    <Video id="remote-video" />
+                </div>
+                <div className="local-video">
+                    <Video id="local-video" />
+                </div>
                 <Controls onStart={startVideo} onStop={stopVideo} />
-            </div>
-            <div className="remote-video">
-                <Video id="remote-video" />
             </div>
             {/* <button id="start-video" onClick={startVideo} disabled={video}> */}
             {/* </button> */}
