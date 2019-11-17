@@ -16,3 +16,7 @@
   width: 80px;
   background: #cccccc;
 }
+
+.hide {
+  visibility: hidden;
+}

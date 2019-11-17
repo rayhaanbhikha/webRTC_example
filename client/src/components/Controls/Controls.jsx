@@ -1,14 +1,24 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 import CallBtn from '../CallBtn/CallBtn';
 import StopBtn from '../StopBtn/StopBtn';
 
 import './Controls.css'
 
-export default function controls(props) {
+export default function Controls(props) {
+    const [showControls, setshowControls] = useState("hidden")
+
+    const toggleVisibility = () => {
+        if(showControls === "hidden") {
+            setshowControls("unset");
+        } else {
+            setshowControls("hidden");
+        }
+    }
+
     return (
-        <div className="controls-wrapper">
-            <div className="controls">
+        <div className="controls-wrapper" onMouseEnter={toggleVisibility} onMouseLeave={toggleVisibility}>
+            <div className="controls" style={{visibility: showControls}}>
                 <CallBtn onClick={props.onStart} />
                 <div className="gap"></div>
                 <StopBtn onClick={props.onStop} />

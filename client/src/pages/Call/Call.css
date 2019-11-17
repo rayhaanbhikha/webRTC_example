@@ -11,11 +11,11 @@
   z-index: 1;
   grid-column: lvs-start;
   grid-row: lvs-start / 4;
-  background: white;
+  justify-self: end;
 }
 
 #remote-video {
-  background: green;
   grid-row: 1/4;
   grid-column: 1/4;
+  justify-self: center;
 }

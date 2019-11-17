@@ -1,11 +1,9 @@
 
 #remote-video {
-  width: 1000px;
-  height: 500px;
+  height: 100%;
 }
 
 #local-video {
-    width: 360px;
-    height: 150px;
+    height: 100%;
   }
 
