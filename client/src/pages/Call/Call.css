@@ -8,6 +8,7 @@
 }
 
 #local-video {
+  z-index: 1;
   grid-column: lvs-start;
   grid-row: lvs-start / 4;
   background: white;

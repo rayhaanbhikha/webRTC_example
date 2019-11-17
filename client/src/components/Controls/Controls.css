@@ -1,4 +1,5 @@
 .controls-wrapper {
+  z-index: 2;
   grid-column: ctrl-start;
   grid-row: 3;
 }
