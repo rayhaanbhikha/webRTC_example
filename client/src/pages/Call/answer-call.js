@@ -1,5 +1,5 @@
 import { socket } from '../../socket';
-import { Video, getMedia } from './video';
+import { setLocalStream } from './video';
 import { rtcConfig } from './config';
 import {
     onicecandidateHandler,
@@ -12,19 +12,18 @@ socket.on("video-offer", async offer => {
     const remoteUserId = "user2";
 
     console.log("video-offer");
-    // alert("someone is calling you"); //TODO: pop up should appear or something.
     const lpc = new RTCPeerConnection(rtcConfig);
     lpc.onnegotiationneeded = onnegotiationneededHandler(lpc, localUserId, remoteUserId);
     lpc.onicecandidate = onicecandidateHandler(remoteUserId);
     lpc.ontrack = ontrackHandler;
     await lpc.setRemoteDescription(offer.sdp);
 
-    const localStream = await getMedia();
-    Video.local.srcObject = localStream;
-    console.log(localStream);
-    localStream
-        .getVideoTracks()
-        .forEach(track => lpc.addTrack(track, localStream));
+    const stream = await setLocalStream();
+
+    console.log("adding track to peer connection");
+    stream
+      .getVideoTracks()
+      .forEach(track => lpc.addTrack(track, stream));
 
     console.log(lpc);
     const answer = await lpc.createAnswer();

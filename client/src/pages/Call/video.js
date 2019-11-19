@@ -5,9 +5,11 @@ const videoConstraints = {
   }
 };
 
-export async function getMedia() {
+export async function setLocalStream() {
   try {
-    return navigator.mediaDevices.getUserMedia(videoConstraints);
+    const stream = await navigator.mediaDevices.getUserMedia(videoConstraints);
+    Video.local.srcObject = stream;
+    return stream;
   } catch (error) {
     console.log("error: ", error);
   }

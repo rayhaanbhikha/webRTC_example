@@ -1,5 +1,5 @@
 import { socket } from "../../socket";
-import { getMedia, Video } from "./video";
+import { setLocalStream, Video } from "./video";
 import { rtcConfig } from "./config";
 import {
   onicecandidateHandler,
@@ -29,13 +29,12 @@ export const startCall = async (localUserId = "user1", remoteUserId = "user2") =
     }
   });
 
-  const localStream = await getMedia();
-  Video.local.srcObject = localStream;
+  const stream = await setLocalStream();
 
   console.log("adding track to peer connection");
-  localStream
+  stream
     .getVideoTracks()
-    .forEach(track => lpc.addTrack(track, localStream));
+    .forEach(track => lpc.addTrack(track, stream));
 };
 
 export const stopCall = async () => {
