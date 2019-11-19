@@ -4,15 +4,12 @@ const server = require("http").createServer();
 
 const io = require("socket.io")(server, {
 	serveClient: false,
-	// below are engine.IO options
 	pingInterval: 10000,
 	pingTimeout: 5000,
 	cookie: false
 });
 
 const videoChatNsp = io.of("/video-chat");
-
-
 
 const getRoom = room => () => videoChatNsp.adapter.rooms[room];
 const defaultRoom = "chat-room-1";
