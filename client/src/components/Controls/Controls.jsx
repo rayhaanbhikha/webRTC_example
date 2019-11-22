@@ -17,12 +17,12 @@ export default function Controls(props) {
     }
 
     return (
-        <div className="controls-wrapper" onMouseEnter={toggleVisibility} onMouseLeave={toggleVisibility}>
+        // <div className="controls-wrapper" onMouseEnter={toggleVisibility} onMouseLeave={toggleVisibility}>
             <div className="controls">
                 <CallBtn onClick={props.onStart} />
                 <div className="gap"></div>
-                <StopBtn onClick={props.onStop} />
+                <StopBtn id="stop-btn" onClick={props.onStop} />
             </div>
-        </div>
+        // </div>
     )
 }

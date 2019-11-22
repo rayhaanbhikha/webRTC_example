@@ -6,7 +6,7 @@ import './StopBtn.css'
 
 export default function StopBtn(props) {
     return (
-        <div className="stop-call-wrapper" onClick={props.onClick}>
+        <div id="stop-btn" className="stop-call-wrapper" onClick={props.onClick}>
             <CallEndIcon />
         </div>
     )

@@ -1,9 +1,5 @@
-.controls-wrapper {
-  z-index: 2;
-  grid-column: ctrl-start;
-  grid-row: 3;
-}
 .controls {
+  place-self: center;
   display: flex;
   width: 300px;
   border-radius: 5px;
