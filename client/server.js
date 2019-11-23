@@ -2,6 +2,7 @@ const express = require("express");
 const https = require('https');
 const http = require('http');
 const fs = require('fs');
+const path = require('path');
 
 const os = require('os');
 const ip = os.networkInterfaces()['en0'][1].address;
@@ -9,13 +10,16 @@ const ip = os.networkInterfaces()['en0'][1].address;
 const app = express();
 
 const server = https.createServer({
-    key: fs.readFileSync("./server.key"),
-    cert: fs.readFileSync("./server.crt"),
+    key: fs.readFileSync("./secrets/server.key"),
+    cert: fs.readFileSync("./secrets/server.crt"),
 }, app);
 const localServer = http.createServer(app);
 
+
+app.use(express.static(path.join(__dirname, "build")));
+
 app.get("/", (req, res) => {
-    res.send("hello world");
+    res.sendFile(path.join(__dirname, "build", "index.html"));
 })
 
 localServer.listen(8080, () => console.log("server started on http://localhost:8080"));
