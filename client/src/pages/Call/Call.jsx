@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import 'webrtc-adapter'
-import { startCall, stopCall } from './main'
+// import { startCall, stopCall } from './main'
 import Video from '../../components/Video/Video';
 
 import './Call.css'
