@@ -1,6 +1,6 @@
 import { socket } from '../../socket';
 import { setLocalStream } from './video';
-import { rtcConfig } from './config';
+import { rtcConfig } from '../../config';
 import {
     onicecandidateHandler,
     onnegotiationneededHandler,

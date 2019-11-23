@@ -1,3 +1,4 @@
 import io from 'socket.io-client';
+import { socketBaseUrl } from './config'
 
-export const socket = io("http://localhost:3004/video-chat");
+export const socket = io(`${socketBaseUrl}/video-chat`);

@@ -8,9 +8,9 @@ import Call from './pages/Call/Call';
 const Routes = () => (
     <Router>
         <Switch>
-            <Route exact path="/" component={Home} />
+            {/* <Route exact path="/" component={Home} /> */}
             <Route exact path="/room" component={Room} />
-            <Route exact path="/call" component={Call} />
+            <Route exact path="/" component={Call} />
         </Switch>
     </Router>
 )
