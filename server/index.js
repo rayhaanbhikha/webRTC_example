@@ -83,5 +83,4 @@ videoChatNsp.on("connect", socket => {
 
 });
 
-server.listen(3004, "192.168.0.26", () => console.log("server started on port 3004"));
 server.listen(port, ip, () => console.log(`server started on https://${ip}:${port}`));
