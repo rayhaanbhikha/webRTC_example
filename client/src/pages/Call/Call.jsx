@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import 'webrtc-adapter'
 import { startCall, stopCall } from './main'
 import Video from '../../components/Video/Video';
 
@@ -9,9 +10,10 @@ export default function Call(props) {
     // const userToCall = props.location.state
     const [stream, setStream] = useState(null);
 
-    const startVideo = async e => {
+    const startVideo = async () => {
         // await startCall();
         const mediaStream = await navigator.mediaDevices.getUserMedia({ video: { width: { min: 1280 }, height: { min: 720 } } });
+        console.log(mediaStream);
         document.getElementById("local-video").srcObject = mediaStream;
         document.getElementById("remote-video").srcObject = mediaStream;
         setStream(mediaStream);
@@ -27,8 +29,6 @@ export default function Call(props) {
     };
 
     return (
-        <div className="call-page">
-            <Video onStart={startVideo} onStop={stopVideo} />
-        </div>
+        <Video onStart={startVideo} onStop={stopVideo} />
     )
 }

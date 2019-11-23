@@ -5,7 +5,7 @@ import './CallBtn.css'
 
 export default function CallBtn(props) {
     return (
-        <div id="call-btn" className="call-wrapper" onClick={props.onClick}>
+        <div className="call-wrapper" onClick={props.onClick}>
             <CallIcon />
         </div>
     )

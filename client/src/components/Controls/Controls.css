@@ -1,4 +1,5 @@
 .controls {
+  z-index: 9999;
   place-self: center;
   display: flex;
   width: 300px;
