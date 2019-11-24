@@ -1,4 +1,4 @@
-const Room = require("./Room");
+const room = require("./db/room");
 const server = require("./server");
 
 const io = require("socket.io")(server, {
@@ -11,8 +11,7 @@ const io = require("socket.io")(server, {
 const videoChatNsp = io.of("/video-chat");
 
 const getRoom = room => () => videoChatNsp.adapter.rooms[room];
-const defaultRoom = "chat-room-1";
-const chatRoom1 = getRoom(defaultRoom);
+const chatRoom1 = getRoom(room.name);
 
 const events = {
 	joinRoom: "join-room",
@@ -20,9 +19,6 @@ const events = {
 	leftRoom: "left-room",
 	roomFull: "room-full"
 }
-
-
-const room = new Room(defaultRoom);
 
 videoChatNsp.on("connect", socket => {
 	console.log("user connected");

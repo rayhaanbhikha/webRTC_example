@@ -1,3 +1,5 @@
+const defaultRoom = "chat-room-1";
+
 class Room {
     constructor(name) {
         this.name = name;
@@ -24,5 +26,7 @@ class Room {
     }
 }
 
-module.exports = Room;
+const room = new Room(defaultRoom);
+
+module.exports = room;
 
