@@ -6,5 +6,5 @@ export const rtcConfig = {
     ]
 };
 
-// export const socketBaseUrl = "http://localhost:3004"
-export const socketBaseUrl = ""
+// assuming in prod server is hosting the client bundle.
+export const socketBaseUrl = process.env.NODE_ENV === "development" ? "http://localhost:3004" : "";
