@@ -4,9 +4,12 @@ const events = require('./events');
 
 const joinRoom = (namespace, socket) => data => {
 
+    if (!data.username) {
+        socket.emit(events.joinRoomError, "no username provided");
+        return;
+    }
     const chatRoom1 = getRoom(room.name, namespace);
 
-    console.log(data);
     const { username } = data;
     if (!chatRoom1() || chatRoom1().length < 2) {
         socket.join(room.name)
@@ -18,7 +21,7 @@ const joinRoom = (namespace, socket) => data => {
         })
         namespace.to(room.name).emit(events.joinedRoom, room.info);
     } else {
-        socket.emit(events.roomFull);
+        socket.emit(events.joinRoomError, "room is full"); //TODO: potentially get rid of this clause.
     }
 }
 

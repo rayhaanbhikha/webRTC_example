@@ -6,8 +6,8 @@ import { socket } from "../../socket";
 const Home = props => {
 	const inputRef = React.createRef();
 	const [errorMsg, setErrorMsg] = useState();
-
-	socket.on("room-full", () => setErrorMsg("Room is full"));
+	
+	socket.on("join-room-error", msg => setErrorMsg(msg));
 	socket.on("you-joined", ({ currentUser, roomInfo }) => {
 		const location = {
 			pathname: "/room",
@@ -21,13 +21,16 @@ const Home = props => {
 
 	const handleOnClick = e => {
 		const name = inputRef.current.value;
-		console.log(name);
-		socket.emit("join-room", { username: name });
+		if(name) {
+			socket.emit("join-room", { username: name });
+		} else {
+			setErrorMsg("username empty");
+		}
 	};
 
 	return (
 		<div id="container">
-			{errorMsg && <div>{errorMsg}</div>}
+				{errorMsg && <p className="error-msg">*{errorMsg}</p>}
 			<div className="form">
 				<div className="room">
 					Chat-room-1

@@ -2,7 +2,7 @@ const events = {
 	joinRoom: "join-room",
 	joinedRoom: "joined-room",
 	leftRoom: "left-room",
-	roomFull: "room-full"
+    joinRoomError: "join-room-error"
 }
 
 module.exports = events;

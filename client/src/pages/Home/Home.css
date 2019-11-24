@@ -1,22 +1,29 @@
 #container {
-    display: flex;
-    height: 500px;
-    justify-content: center;
+  display: flex;
+  flex-direction: column;
+  height: 500px;
+  justify-content: center;
 }
 
 .form {
-    border: solid 1px #dadada;
-    padding-bottom: 10px;
-    display: flex;
-    align-self: center;
-    flex-direction: column;
-    min-width: 300px;
+  border: solid 1px #dadada;
+  padding-bottom: 10px;
+  display: flex;
+  align-self: center;
+  flex-direction: column;
+  min-width: 300px;
 }
 
-label, input {
-    margin: 10px;
+.error-msg {
+  align-self: center;
+  color: red;
+}
+
+label,
+input {
+  margin: 10px;
 }
 
 button {
-    align-self: center;
+  align-self: center;
 }
