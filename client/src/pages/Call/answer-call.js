@@ -7,7 +7,7 @@ import {
     ontrackHandler
 } from "./handlers";
 
-socket.on("video-offer", async offer => {
+export const answerVideoOffer = async offer => {
     const localUserId = "user1";
     const remoteUserId = "user2";
 
@@ -35,7 +35,7 @@ socket.on("video-offer", async offer => {
         sdp: answer
     });
     newIceCandidate(lpc);
-});
+}
 
 
 // REMOTE PEER

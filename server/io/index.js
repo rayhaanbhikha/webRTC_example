@@ -36,4 +36,8 @@ videoChatNsp.on("connect", socket => {
         socket.broadcast.emit("new-ice-candidate", candidate);
     });
 
+    socket.on("stop-call", () => {
+        socket.broadcast.emit("call-stopped");
+    })
+
 });

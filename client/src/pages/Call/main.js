@@ -39,6 +39,5 @@ export const startCall = async (localUserId = "user1", remoteUserId = "user2") =
 
 export const stopCall = async () => {
   Video.local.srcObject.getVideoTracks().forEach(track => track.stop());
-
   Video.local.srcObject = null;
 };
