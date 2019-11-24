@@ -1,16 +1,10 @@
 const Room = require("./Room");
 const express = require('express');
-const os = require('os');
-const fs = require('fs');
-const port = process.env.PORT || 3004;
+const {port, serverOptions, ipAddress} = require("./config");
 
 const app = express();
 
-const ip = os.networkInterfaces()['en0'][1].address;
-const server = require("https").createServer({
-    key: fs.readFileSync("./secrets/server.key"),
-    cert: fs.readFileSync("./secrets/server.crt"),
-}, app);
+const server = require("https").createServer(serverOptions, app);
 
 app.use(require("./client"));
 
@@ -83,4 +77,4 @@ videoChatNsp.on("connect", socket => {
 
 });
 
-server.listen(port, ip, () => console.log(`server started on https://${ip}:${port}`));
+server.listen(port, ipAddress, () => console.log(`server started on https://${ipAddress}:${port}`));
