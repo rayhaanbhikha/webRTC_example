@@ -31,8 +31,8 @@ export default function Room(props) {
 			<div className="room-info">
 				<div className="room">{roomInfo.room}</div>
 				<div className="users">
-					{roomInfo.users.map(({ username, id }) =>
-						<User key={id} username={username} showCall={username === user.username && id === user.id} onClick={onCall.bind(null, { username, id })} />
+					{ roomInfo.users.filter(({username, id}) => user.id !== id && user.username !== username ).map(({username, id}) => 
+						<User key={id} username={username} onClick={onCall.bind(null, { username, id })} />
 					)}
 				</div>
 			</div>
