@@ -1,16 +1,19 @@
 import React from 'react'
 
-import CallBtn from '../CallBtn/CallBtn';
-import StopBtn from '../StopBtn/StopBtn';
+import CallIcon from '@material-ui/icons/Call';
+import CallEndIcon from '@material-ui/icons/CallEnd';
 
 import './Controls.css'
 
 export default function Controls(props) {
+
+    const className = !props.active ? "call" : "callend";
+
     return (
         <div className="controls">
-            <CallBtn onClick={props.onStart} />
-            <div className="gap"></div>
-            <StopBtn onClick={props.onStop} />
+            <div className={`call-wrapper ${className}`} onClick={props.onClick}>
+                {!props.active ? <CallIcon /> : <CallEndIcon />}
+            </div>
         </div>
     )
 }

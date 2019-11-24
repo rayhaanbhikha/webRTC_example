@@ -1,12 +1,9 @@
 .controls {
-  z-index: 9999;
   place-self: center;
   display: flex;
   width: 300px;
-  border-radius: 5px;
   justify-content: center;
   align-self: center;
-  margin-top: 3%;
 }
 
 .gap {
@@ -16,4 +13,33 @@
 
 .hide {
   visibility: hidden;
+}
+
+.call-wrapper {
+  z-index: 5;
+  border-radius: 5px;
+  width: 50px;
+  text-align: center;
+  padding: 14px 10px 10px 10px;
+}
+
+div.call-wrapper > svg {
+  color: white;
+}
+
+
+.call {
+  background: #0da90d;
+}
+
+.call:active {
+  background: green;
+}
+
+.callend {
+  background: #ff4a4a;
+}
+
+.callend:active {
+  background: red;
 }
