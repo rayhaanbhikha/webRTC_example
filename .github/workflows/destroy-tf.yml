@@ -9,5 +9,5 @@ jobs:
     name: Get Workspace
     runs-on: ubuntu-latest
     steps:
-      - continue-on-error: false
-      - run: echo $(env)
+      - name: print envs
+        run: echo $(env)
