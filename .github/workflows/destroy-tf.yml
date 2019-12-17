@@ -1,0 +1,13 @@
+name: "Destroy Terraform Workspace"
+
+on: 
+  push:
+    branches:
+      - master
+jobs:
+  get_workspace:
+    name: Get Workspace
+    runs-on: ubuntu-latest
+    steps:
+      - continue-on-error: false
+      - run: echo $(env)
